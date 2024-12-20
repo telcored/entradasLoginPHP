@@ -97,9 +97,17 @@ $sql = "SELECT e.* , c.nombre  AS 'categoria' FROM entradas e INNER JOIN categor
 
 */
 
-function conseguirEntradas($conexion, $limit =null)
+function conseguirEntradas($conexion, $limit =null, $categoria = null)
 {
-$sql = "SELECT e.* , c.nombre  AS 'categoria' FROM entradas e INNER JOIN categorias c  ON e.categoria_id = c.id  ORDER BY e.id DESC ";
+$sql = "SELECT e.* , c.nombre  AS 'categoria' FROM entradas e INNER JOIN categorias c  ON e.categoria_id = c.id ";
+
+
+    if (!empty($categoria)){
+        $sql .= "WHERE e.categoria_id = $categoria ";
+    }
+
+    $sql .= "ORDER BY e.id DESC ";
+
 
     if ($limit){
         $sql .= "LIMIT 2";
@@ -117,4 +125,26 @@ $sql = "SELECT e.* , c.nombre  AS 'categoria' FROM entradas e INNER JOIN categor
 
     return $entradas;
 }
+
+
+
+//En singular
+
+function conseguirEntrada($conexion, $id)
+{
+$sql = "SELECT e.*, c.nombre AS 'categoria', CONCAT(u.nombre, '', u.apellidos) AS usuario FROM entradas e INNER JOIN categorias c ON e.categoria_id = c.id INNER JOIN usuarios u ON e.usuario_id = u.id WHERE e.id = $id";
+
+$entrada = mysqli_query($conexion, $sql);
+
+$resultado = array();
+ if ($entrada && mysqli_num_rows($entrada) >=1){
+
+    $resultado = mysqli_fetch_assoc($entrada);
+ }
+
+return $resultado;
+
+   
+}
+
 
