@@ -1,4 +1,4 @@
-<?php require_once 'includes/redireccion.php'; //solo si estas identificado se lleva aqui
+<?php require_once 'includes/redireccion.php'; //solo si estas identificado te lleva aqui
 ?>
 <?php require_once 'includes/cabecera.php'; ?>
 
@@ -23,7 +23,7 @@ if (!isset($entrada_actual['id'])) {
     </p>
     <br>
 
-    <form action="guardarEntrada.php" method="POST">
+    <form action="guardarEntrada.php?editar=<?=$entrada_actual['id']?>" method="POST">
 
         <label for="titulo">Titulo: </label>
         <input type="text" name="titulo" value="<?= $entrada_actual['titulo']; ?>">
